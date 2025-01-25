@@ -95,6 +95,24 @@ public class CharacterController2D : MonoBehaviour
                 SetState(CharacterState.Peak);
             }
         }
+
+        HandlePlatformCollisions(); // Call the new collision handler
+    }
+
+    private void HandlePlatformCollisions()
+    {
+        // Enable or disable collisions based on ascending/descending state
+        bool ignoreCollision = (currentState == CharacterState.Ascending);
+        BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+        if(ignoreCollision)
+        {
+            boxCollider.enabled = false; 
+        }
+        else
+        {
+            boxCollider.enabled = true;
+        }
+
     }
 
     private void SetState(CharacterState newState)
