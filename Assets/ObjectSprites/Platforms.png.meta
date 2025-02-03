@@ -1,0 +1,315 @@
+fileFormatVersion: 2
+guid: f88676c211cd0ea4fa30b80e614f0a94
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3697656993576800009
+    second: clouds_option (1)_0
+  - first:
+      213: 762652421155561686
+    second: clouds_option (1)_1
+  - first:
+      213: -8144161424048813136
+    second: clouds_option (1)_2
+  - first:
+      213: -5794800310461164626
+    second: clouds_option (1)_3
+  - first:
+      213: 6423922325138793592
+    second: clouds_option (1)_4
+  - first:
+      213: 612504505525985314
+    second: clouds_option (1)_5
+  - first:
+      213: -3766388782983218210
+    second: clouds_option (1)_6
+  - first:
+      213: -3603073388327701479
+    second: clouds_option (1)_7
+  - first:
+      213: 630967712955561176
+    second: clouds_option (1)_8
+  - first:
+      213: -7727642587415818530
+    second: clouds_option (1)_9
+  - first:
+      213: -3282002064970810204
+    second: clouds_option (1)_10
+  - first:
+      213: -2990273231797827341
+    second: clouds_option (1)_11
+  - first:
+      213: 1667589078904975221
+    second: clouds_option (1)_12
+  - first:
+      213: 2416397833306179521
+    second: clouds_option (1)_13
+  - first:
+      213: -572046019811676688
+    second: clouds_option (1)_14
+  - first:
+      213: 9158549972043764303
+    second: clouds_option (1)_15
+  - first:
+      213: -7048280642001170388
+    second: clouds_option (1)_16
+  - first:
+      213: 6108222923636369778
+    second: clouds_option (1)_17
+  - first:
+      213: -6194464903855473631
+    second: clouds_option (1)_18
+  - first:
+      213: -799212352538388865
+    second: clouds_option (1)_19
+  - first:
+      213: -4774491631186755535
+    second: clouds_option (1)_20
+  - first:
+      213: 7943777184250022407
+    second: clouds_option (1)_21
+  - first:
+      213: -5384499980464160179
+    second: clouds_option (1)_22
+  - first:
+      213: 5183809189284063426
+    second: clouds_option (1)_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 400
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: clouds_option (1)_9
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 1094
+        width: 737
+        height: 215
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ede46e17206e1c490800000000000000
+      internalID: -7727642587415818530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: clouds_option (1)_10
+      rect:
+        serializedVersion: 2
+        x: 1333
+        y: 1059
+        width: 743
+        height: 219
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4acf05db28cf372d0800000000000000
+      internalID: -3282002064970810204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: clouds_option (1)_22
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 272
+        width: 745
+        height: 226
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d42065bcbc96645b0800000000000000
+      internalID: -5384499980464160179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: clouds_option (1)_23
+      rect:
+        serializedVersion: 2
+        x: 1195
+        y: 256
+        width: 742
+        height: 218
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c8aeae1ef690f740800000000000000
+      internalID: 5183809189284063426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 22de0bd4d6bd5e94bb1e02a9161b159f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Platforms_0: 941460991
+      clouds_option (1)_0: 3697656993576800009
+      clouds_option (1)_1: 762652421155561686
+      clouds_option (1)_10: -3282002064970810204
+      clouds_option (1)_11: -2990273231797827341
+      clouds_option (1)_12: 1667589078904975221
+      clouds_option (1)_13: 2416397833306179521
+      clouds_option (1)_14: -572046019811676688
+      clouds_option (1)_15: 9158549972043764303
+      clouds_option (1)_16: -7048280642001170388
+      clouds_option (1)_17: 6108222923636369778
+      clouds_option (1)_18: -6194464903855473631
+      clouds_option (1)_19: -799212352538388865
+      clouds_option (1)_2: -8144161424048813136
+      clouds_option (1)_20: -4774491631186755535
+      clouds_option (1)_21: 7943777184250022407
+      clouds_option (1)_22: -5384499980464160179
+      clouds_option (1)_23: 5183809189284063426
+      clouds_option (1)_3: -5794800310461164626
+      clouds_option (1)_4: 6423922325138793592
+      clouds_option (1)_5: 612504505525985314
+      clouds_option (1)_6: -3766388782983218210
+      clouds_option (1)_7: -3603073388327701479
+      clouds_option (1)_8: 630967712955561176
+      clouds_option (1)_9: -7727642587415818530
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
