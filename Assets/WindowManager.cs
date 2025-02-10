@@ -32,4 +32,22 @@ public class WindowManager : MonoBehaviour
             }
         }
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && firstCollusion)
+        {
+            firstCollusion = false; 
+
+            if (newSprite != null)
+            {
+                spriteRenderer.sprite = newSprite;
+            }
+
+            if(collisionEffect != null)
+            {
+                collisionEffect.Play();
+            }
+        }
+    }
 }

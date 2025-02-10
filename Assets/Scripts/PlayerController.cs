@@ -5,7 +5,7 @@ public class CharacterController2D : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    public float jumpForce = 10f;
+    public float jumpForce = 1f;
     public float superJumpForce = 20f;
 
     private Rigidbody2D rb;
@@ -40,7 +40,20 @@ public class CharacterController2D : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStrength);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    // private void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+    //     {
+    //         Jump(jumpForce);
+    //         Debug.Log(collision.gameObject.name);
+    //     }
+    //     else if (collision.gameObject.layer == LayerMask.NameToLayer("SuperJump"))
+    //     {
+    //         Jump(superJumpForce);
+    //     }
+    // }
+
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
@@ -62,13 +75,17 @@ public class CharacterController2D : MonoBehaviour
 
     private void HandleCollider()
     {
-        if (rb.linearVelocity.y > 0) // Ascending
+        if (rb.linearVelocity.y > 0.2) // Ascending
         {
-            playerCollider.enabled = false;
+            playerCollider.isTrigger = true;
         }
-        else // Descending or stationary
+        else if(rb.linearVelocity.y < -0.2)
         {
-            playerCollider.enabled = true;
+            playerCollider.isTrigger = false;
+        }
+        else
+        {
+            playerCollider.isTrigger = false;
         }
     }
 
