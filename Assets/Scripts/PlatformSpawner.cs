@@ -20,12 +20,12 @@ public class PlatformSpawner : MonoBehaviour
 
     void Start()
     {
+        lastPlatform = platformPrefabs[0];
         // Start spawning from minY area
         //lastYPosition = spawnAreaMin.position.y;
 
         // Spawn the platforms
         SpawnPlatforms();
-        lastPlatform = platformPrefabs[0];
     }
 
     void SpawnPlatforms()
@@ -38,9 +38,10 @@ public class PlatformSpawner : MonoBehaviour
 
             bool isWindow = selectedPlatform.name == "WindowPlatform_Variant_1" || selectedPlatform.name == "WindowPlatform_Variant_2" || selectedPlatform.name == "WindowPlatform_Variant_3";
             
-            float randomX = Random.Range(spawnAreaMin.position.x, spawnAreaMax.position.x );
+            float randomX = 
+            !isWindow ? Random.Range(spawnAreaMin.position.x, spawnAreaMax.position.x ) : Random.Range(spawnAreaMin.position.x + 0.5f, spawnAreaMax.position.x - 0.5f); 
 
-            float randomYIncrease = !isWindow ? Random.Range(minYDistance, maxYDistance) : Random.Range(minYDistance + 0.5f, maxYDistance + 0.5f); 
+            float randomYIncrease = !isWindow ? Random.Range(minYDistance - 0.3f , maxYDistance) : Random.Range(minYDistance + 0.5f, maxYDistance + 0.5f); 
 
             yPosition += randomYIncrease;
 
@@ -57,9 +58,9 @@ public class PlatformSpawner : MonoBehaviour
 
     public GameObject SelectPlatform()
     {
-        int dice = Random.Range(0, 100);
+        int dice = Random.Range(1, 100);
 
-        int[] thresholds = { 45, 60, 70, 88, 92, 96, 100};
+        int[] thresholds = { 35, 45, 60, 70, 80, 90, 100};
 
         for (int i = 0; i < thresholds.Length; i++)
         {
