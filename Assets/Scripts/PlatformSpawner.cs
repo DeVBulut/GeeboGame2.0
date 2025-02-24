@@ -12,7 +12,7 @@ public class PlatformSpawner : MonoBehaviour
     public float minYDistance = 1.5f; // Minimum Y gap
     public float maxYDistance = 3.5f; // Maximum Y gap
 
-    public int platformCount = 10; // Number of platforms to spawn
+    //public int platformCount = 10; // Number of platforms to spawn
 
     private float lastYPosition; // Keeps track of last Y position
 
@@ -23,13 +23,11 @@ public class PlatformSpawner : MonoBehaviour
         lastPlatform = platformPrefabs[0];
         // Start spawning from minY area
         //lastYPosition = spawnAreaMin.position.y;
-
-        // Spawn the platforms
-        SpawnPlatforms();
     }
 
-    void SpawnPlatforms()
+    public void SpawnPlatforms(int platformCount)
     {
+        Time.timeScale = 1; 
         float yPosition = this.transform.position.y;
         for (int i = 0; i < platformCount; i++)
         {

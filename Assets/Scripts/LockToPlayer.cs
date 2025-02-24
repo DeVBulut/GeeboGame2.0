@@ -4,6 +4,7 @@ public class LockToPlayer : MonoBehaviour
 {
     private float startXPosition;    
     public Transform playerTransform;
+    public CharacterController2D playerController;
     private float highestYPosition; // Track the highest Y position the player has reached
     public float maxFallDistance = 5.0f; // Distance threshold before the player dies
     private bool alive = true; 
@@ -29,14 +30,14 @@ public class LockToPlayer : MonoBehaviour
         // Check if the player falls too far below
         if (playerTransform.position.y < highestYPosition - maxFallDistance)
         {
-            KillPlayer();
+            DetectDeath();
         }
     }
 
-    void KillPlayer()
+    void DetectDeath()
     {
         if(!alive){return;}
-        if(alive){alive = false;}
+        if(alive){playerController.KillPlayer(false); alive = false;}
 
         Debug.Log("Player has fallen too far! Game Over.");
         // Implement your game over logic here (disable movement, show UI, reload scene, etc.)
