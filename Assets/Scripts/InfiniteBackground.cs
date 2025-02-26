@@ -20,6 +20,9 @@ public class InfiniteBackground : MonoBehaviour
 
     void RepositionBackground()
     {
+        //Fail Checker
+        if(backgrounds.Length == 0){Debug.LogWarning("No Background Added to Background Array"); return;}
+
         // Get the highest background position
         int highestIndex = (lowestIndex + backgrounds.Length - 1) % backgrounds.Length;
         float newY = backgrounds[highestIndex].transform.position.y + backgroundHeight;

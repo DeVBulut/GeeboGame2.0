@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Unity.Collections;
 using UnityEngine;
 
@@ -27,6 +26,10 @@ public class PlatformSpawner : MonoBehaviour
 
     public void SpawnPlatforms(int platformCount)
     {
+        //Fail Checker
+        if(platformPrefabs.Length == 0){Debug.LogWarning("Platform prefab count on prefab array = 0"); return;}
+
+
         Time.timeScale = 1; 
         float yPosition = this.transform.position.y;
         for (int i = 0; i < platformCount; i++)

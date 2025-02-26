@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
 
     void HandleSettingsPanel()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && PausePanel != null)
         {
             if(PausePanel.activeSelf == true)
             {
