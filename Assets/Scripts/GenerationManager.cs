@@ -17,7 +17,7 @@ public class GenerationManager : MonoBehaviour
 
     [Tooltip("The starting Y Vector for platform generation")]
     [SerializeField] private float startY = 3.5f;
-    private float lastPlatformPosition; 
+    private GameObject lastPlatform; 
 
     
     public void GeneratePlatforms()
@@ -28,12 +28,33 @@ public class GenerationManager : MonoBehaviour
         for (int i = 0; i < platformPerCycle; i++)
         {
             GameObject randomPlatform = RandomlyGeneratedPlatform();
+            lastPlatform = randomPlatform;
         }
 
     }
 
     private GameObject RandomlyGeneratedPlatform()
     {
-        return null; 
+        int dice = Random.Range(1, 100);
+        int[] weights = { 35, 10, 15, 10, 10, 10, 10 }; 
+        
+        int cumulative = 0;
+        for (int i = 0; i < weights.Length; i++)
+        {
+            cumulative += weights[i];
+
+            if (dice < cumulative)
+            {
+                // Special case: Prevent repetitive "WindowPlatform" spawns
+                if (dice > 88 && (lastPlatform.name.Contains("WindowPlatform_Variant")))
+                {
+                    return platformPrefabs[0]; // Return first(default) platform
+                }
+                return platformPrefabs[i];
+            }
+        }
+
+        Debug.LogWarning("Unintended Behaviour Blocker - " + platformPrefabs[0].name + " is returned");
+        return platformPrefabs[0]; // Fallback (should never happen)
     }
 }
