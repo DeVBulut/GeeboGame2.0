@@ -28,6 +28,7 @@ public class GenerationManager : MonoBehaviour
     private void Start()
     {
         //GeneratePlatforms(250, 1, 2);
+        lastPlatform = Instantiate(platformPrefabs[0], Vector3.zero, Quaternion.identity); 
     }
 
     public void GeneratePlatforms()
