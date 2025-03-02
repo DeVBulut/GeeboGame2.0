@@ -13,68 +13,39 @@ public class GenerationManager : MonoBehaviour
     [Header("Generation Variables")]
     [SerializeField] private float minY_DistanceBetweenPlatform = 1.5f; 
     [SerializeField] private float maxY_DistanceBetweenPlatform = 3.5f;
-
-    [Tooltip("The starting Y Vector for platform generation")]
-    [SerializeField] private float currentPlatformY;
-    private GameObject lastPlatform;
-
-    public int platformPerCycle = 200; 
-    public float averageSpawnInterval = 0.5f;
-    public float spawnIntervalChange = 1f;
-
-
-
-
-    private void Start()
-    {
-        //GeneratePlatforms(250, 1, 2);
-        lastPlatform = Instantiate(platformPrefabs[0], Vector3.zero, Quaternion.identity); 
-    }
+    [SerializeField] private float ySpawn = -5f; 
+    [SerializeField] private int platformPerCycle;
+    [SerializeField] private GameObject lastPlatform;
+    [SerializeField] private float borderOffset;
 
     public void GeneratePlatforms()
     {
         //fail Check
         if(platformPrefabs.Length == 0){Debug.LogWarning("Platform prefab count on prefab array = 0"); return;}
         
-        //Type selection and position loop.
         for (int i = 0; i < platformPerCycle; i++)
         {
             GameObject randomPlatform = RandomlyGeneratedPlatform();
-            lastPlatform = randomPlatform;
-            Vector3 spawnLocation = SetPosition(averageSpawnInterval, spawnIntervalChange);
-
+            Vector3 spawnLocation = SetPosition();
             Instantiate(randomPlatform, spawnLocation, Quaternion.identity); 
         }
-    }
-
-    private Vector3 SetPosition(float averageSpawnInterval, float spawnIntervalChange)
-    {
-        float yPosition = lastPlatform.transform.position.y; 
-
-        float xSpawnPosition = Random.Range(-borderTransform.position.x, borderTransform.position.x);
-        float ySpawnPosition = Random.Range(yPosition + averageSpawnInterval,  yPosition + averageSpawnInterval + spawnIntervalChange);
-        
-        Vector3 spawnLocation = new Vector3(xSpawnPosition, yPosition, 0);
-        return spawnLocation;
     }
 
     private GameObject RandomlyGeneratedPlatform()
     {
         int dice = Random.Range(1, 100);
-        int[] weights = { 35, 10, 15, 10, 10, 10, 10 }; 
-        
-        int cumulative = 0;
-        for (int i = 0; i < weights.Length; i++)
-        {
-            cumulative += weights[i];
+        int[] thresholds = { 35, 45, 60, 70, 80, 90, 100};
 
-            if (dice < cumulative)
+        for (int i = 0; i < thresholds.Length; i++)
+        {
+            if (dice < thresholds[i])
             {
-                // Special case: Prevent repetitive "WindowPlatform" spawns
-                if (dice > 88 && (lastPlatform.name.Contains("WindowPlatform_Variant")))
+                if(dice > 70 && lastPlatform.name.Contains("Window"))
                 {
-                    return platformPrefabs[0]; // Return first(default) platform
+                    lastPlatform = platformPrefabs[0];
+                    return platformPrefabs[0];
                 }
+                lastPlatform = platformPrefabs[i];
                 return platformPrefabs[i];
             }
         }
@@ -82,4 +53,13 @@ public class GenerationManager : MonoBehaviour
         Debug.LogWarning("Unintended Behaviour Blocker - " + platformPrefabs[0].name + " is returned");
         return platformPrefabs[0]; // Fallback (should never happen)
     }    
+
+    private Vector3 SetPosition()
+    {
+        float xPosition = Random.Range(-borderTransform.position.x + borderOffset, borderTransform.position.x - borderOffset);
+        float yPosition = Random.Range(ySpawn + minY_DistanceBetweenPlatform , ySpawn + maxY_DistanceBetweenPlatform);
+        ySpawn = yPosition;
+        Debug.Log("Randomized Position is x: " + xPosition + " y: " + yPosition);
+        return new Vector3(xPosition, yPosition, 0);
+    }
 }

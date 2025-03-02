@@ -1794,11 +1794,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7195841780128335801, guid: 0eeea6e6b0500e84f8fe2ace64618ac7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.68
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7195841780128335801, guid: 0eeea6e6b0500e84f8fe2ace64618ac7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -44.13
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 7195841780128335801, guid: 0eeea6e6b0500e84f8fe2ace64618ac7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5957,12 +5957,11 @@ MonoBehaviour:
   - {fileID: 3169555040852716296, guid: 54818c959c5032e48965463cb3e47738, type: 3}
   winZone: {fileID: 0}
   borderTransform: {fileID: 956714580}
-  minY_DistanceBetweenPlatform: 1.5
-  maxY_DistanceBetweenPlatform: 3.5
-  currentPlatformY: 0
-  platformPerCycle: 250
-  averageSpawnInterval: 1.5
-  spawnIntervalChange: 3.5
+  minY_DistanceBetweenPlatform: 0.5
+  maxY_DistanceBetweenPlatform: 1.5
+  ySpawn: -5
+  platformPerCycle: 100
+  lastPlatform: {fileID: 581518901}
 --- !u!4 &2033377048 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3431847102734492053, guid: 54818c959c5032e48965463cb3e47738, type: 3}
