@@ -19,7 +19,7 @@ public class BreakingPlatformManager : MonoBehaviour
             {
                 Debug.Log(other.name + " collided");
                 animator.Play("CloudBreak");    
-                StartCoroutine(WaitForDestroy(5));
+                StartCoroutine(WaitForStop(3));
             }
             else // Descending or stationary
             {
@@ -28,9 +28,11 @@ public class BreakingPlatformManager : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitForDestroy(float waitTime)
+    private IEnumerator WaitForStop(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        Destroy(this.gameObject);
+        Rigidbody2D rigidbodySelf = GetComponent<Rigidbody2D>();
+        rigidbodySelf.gravityScale = 0;
+        rigidbodySelf.linearVelocity = Vector3.zero; 
     }
 }

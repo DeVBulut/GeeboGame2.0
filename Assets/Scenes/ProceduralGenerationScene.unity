@@ -5960,8 +5960,12 @@ MonoBehaviour:
   minY_DistanceBetweenPlatform: 0.5
   maxY_DistanceBetweenPlatform: 1.5
   ySpawn: -5
-  platformPerCycle: 100
+  platformPerCycle: 20
   lastPlatform: {fileID: 581518901}
+  borderOffset: 1
+  setSpecialPlatformOffset: 1
+  recycleThreshold: 10
+  player: {fileID: 468538180}
 --- !u!4 &2033377048 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3431847102734492053, guid: 54818c959c5032e48965463cb3e47738, type: 3}

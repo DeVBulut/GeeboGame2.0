@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,6 +19,34 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] private int platformPerCycle;
     [SerializeField] private GameObject lastPlatform;
     [SerializeField] private float borderOffset;
+    [SerializeField] private float setSpecialPlatformOffset;
+    private float speicalPlatformOffset; 
+    public Queue<GameObject> platformQueue = new Queue<GameObject>();
+    [SerializeField] private float recycleThreshold;
+    public Transform player;
+
+
+    void Update()
+    {
+        if(platformQueue.Count == 0){return;}
+        GameObject lowestPlatform = platformQueue.Peek();
+        if (player.position.y > lowestPlatform.transform.position.y + recycleThreshold)
+        {
+            RecyclePlatform();
+        }
+    }
+
+    void RecyclePlatform()
+    {
+        // Get the lowest platform and reposition it to the front
+        GameObject platform = platformQueue.Dequeue();
+        platform.transform.position = SetPosition();
+        
+        // Add it back to the pool
+        platformQueue.Enqueue(platform);
+
+        Debug.Log("Action performed pooling for : " + platform.name);
+    }
 
     public void GeneratePlatforms()
     {
@@ -25,9 +55,8 @@ public class GenerationManager : MonoBehaviour
         
         for (int i = 0; i < platformPerCycle; i++)
         {
-            GameObject randomPlatform = RandomlyGeneratedPlatform();
-            Vector3 spawnLocation = SetPosition();
-            Instantiate(randomPlatform, spawnLocation, Quaternion.identity); 
+            GameObject randomPlatform = Instantiate(RandomlyGeneratedPlatform(), SetPosition(), Quaternion.identity);
+            platformQueue.Enqueue(randomPlatform);
         }
     }
 
@@ -40,11 +69,11 @@ public class GenerationManager : MonoBehaviour
         {
             if (dice < thresholds[i])
             {
-                if(dice > 70 && lastPlatform.name.Contains("Window"))
+                if(dice > 70 || lastPlatform.name.Contains("Window"))
                 {
-                    lastPlatform = platformPrefabs[0];
-                    return platformPrefabs[0];
+                    speicalPlatformOffset = setSpecialPlatformOffset;
                 }
+                else{speicalPlatformOffset = 0f;}
                 lastPlatform = platformPrefabs[i];
                 return platformPrefabs[i];
             }
@@ -57,9 +86,14 @@ public class GenerationManager : MonoBehaviour
     private Vector3 SetPosition()
     {
         float xPosition = Random.Range(-borderTransform.position.x + borderOffset, borderTransform.position.x - borderOffset);
+
         float yPosition = Random.Range(ySpawn + minY_DistanceBetweenPlatform , ySpawn + maxY_DistanceBetweenPlatform);
+        yPosition += setSpecialPlatformOffset;
+
         ySpawn = yPosition;
-        Debug.Log("Randomized Position is x: " + xPosition + " y: " + yPosition);
+        // /Debug.Log("Randomized Position is x: " + xPosition + " y: " + yPosition);
         return new Vector3(xPosition, yPosition, 0);
     }
+
+
 }
