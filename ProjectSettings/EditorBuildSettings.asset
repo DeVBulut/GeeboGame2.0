@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/HanDevScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ProceduralGenerationScene.unity
     guid: 9a7e4005b9329404190325db0f3b594d
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: f104868a231819a4499338aa02d87baa
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
