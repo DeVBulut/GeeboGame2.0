@@ -91,7 +91,7 @@ public class GenerationManager : MonoBehaviour
         yPosition += setSpecialPlatformOffset;
 
         ySpawn = yPosition;
-        // /Debug.Log("Randomized Position is x: " + xPosition + " y: " + yPosition);
+        //Debug.Log("Randomized Position is x: " + xPosition + " y: " + yPosition);
         return new Vector3(xPosition, yPosition, 0);
     }
 
