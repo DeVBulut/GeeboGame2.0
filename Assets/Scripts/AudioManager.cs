@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -5,12 +6,14 @@ using UnityEngine.UI;
 public class AudioManager : MonoBehaviour
 {
     public AudioMixer audioMixer;
-    public Slider musicSlider; 
     public Slider effectsSlider;
+    public Slider musicSlider; 
+    public Slider buttonVolumeSlider; 
     public static AudioManager instance;
-    private float musicVolume = 1f; 
-    private float effectVolume = 1f;
-
+    private float effectVolume = 0.3f;
+    private float musicVolume = 0.3f; 
+    private float buttonEffectVolume = 1f; 
+    [SerializeField] private bool isMainMenuAudioManager = false; 
     void Awake()
     {
         if (instance == null)
@@ -27,14 +30,18 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        Transform parent = GameObject.Find("Canvas").transform;
-        musicSlider = parent.transform.GetChild(1).transform.GetChild(2).gameObject.GetComponent<Slider>();
-        effectsSlider = parent.transform.GetChild(1).transform.GetChild(1).gameObject.GetComponent<Slider>();
+        if(!isMainMenuAudioManager)
+        {
+            Transform parent = GameObject.Find("Canvas").transform;
+            musicSlider = parent.transform.GetChild(1).transform.GetChild(2).gameObject.GetComponent<Slider>();
+            effectsSlider = parent.transform.GetChild(1).transform.GetChild(1).gameObject.GetComponent<Slider>();
+        }
 
 
         // Load saved values or use default (1.0f if not set before)
-        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
-        effectVolume = PlayerPrefs.GetFloat("EffectVolume", 1.0f);
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.3f);
+        effectVolume = PlayerPrefs.GetFloat("EffectVolume", 0.3f);
+        buttonEffectVolume = PlayerPrefs.GetFloat("ButtonEffectVolume", 1f);
 
         //musicSlider = GameObject.FindGameObjectWithTag("MusicSlider").gameObject.GetComponent<Slider>();
         //effectsSlider = GameObject.FindGameObjectWithTag("EffectsSlider").gameObject.GetComponent<Slider>();
@@ -48,9 +55,11 @@ public class AudioManager : MonoBehaviour
         {
             effectsSlider.value = effectVolume;
         }
+        if(buttonVolumeSlider != null)
+        {
+            buttonVolumeSlider.value = buttonEffectVolume;
+        }
 
-        // Apply loaded volume levels
-        ApplyVolume();
     }
 
     void FixedUpdate()
@@ -60,32 +69,33 @@ public class AudioManager : MonoBehaviour
 
     public void OnSoundValueChanged()
     {
-        if(musicSlider != null && effectsSlider != null)
+        if (musicSlider != null && effectsSlider != null)
         {
             // Update volumes from sliders
             musicVolume = musicSlider.value;
             effectVolume = effectsSlider.value;
+            buttonEffectVolume = buttonVolumeSlider.value;
 
             // Save values to PlayerPrefs
             PlayerPrefs.SetFloat("MusicVolume", musicVolume);
             PlayerPrefs.SetFloat("EffectVolume", effectVolume);
+            PlayerPrefs.SetFloat("ButtonEffectVolume", buttonEffectVolume);
             PlayerPrefs.Save(); // Ensure data is written
 
-            // Apply new volume levels
-            ApplyVolume();
-            audioMixer.SetFloat("Music", Mathf.Log10(musicVolume) * 20);
-            audioMixer.SetFloat("Effects", Mathf.Log10(effectVolume) * 20);
+            // Apply volume changes while handling zero values
+            audioMixer.SetFloat("Music", (musicVolume > 0) ? Mathf.Log10(musicVolume) * 20 : -80);
+            audioMixer.SetFloat("Effects", (effectVolume > 0) ? Mathf.Log10(effectVolume) * 20 : -80);
+            audioMixer.SetFloat("UI", (buttonEffectVolume > 0) ? Mathf.Log10(buttonEffectVolume) * 20 : -80);
         } 
         else
         {
-             Transform parent = GameObject.Find("Canvas").transform;
-             musicSlider = parent.transform.GetChild(1).transform.GetChild(2).gameObject.GetComponent<Slider>();
-             effectsSlider = parent.transform.GetChild(1).transform.GetChild(1).gameObject.GetComponent<Slider>();
+            Debug.LogWarning("Sliders are not found");
         }
     }
 
-    private void ApplyVolume()
+    public void PlayButtonSound()
     {
-        // Convert linear slider value to logarithmic volume scale (for audio mixer)
+
     }
+
 }
