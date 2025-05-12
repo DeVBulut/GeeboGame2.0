@@ -3,15 +3,20 @@ using UnityEngine;
 
 public class WindowManager : MonoBehaviour
 {
-
     [SerializeField] private Sprite newSprite;
+    private Sprite originalSprite;
     private SpriteRenderer spriteRenderer;
-    private ParticleSystem collisionEffect; 
-    public bool firstCollusion = true; 
-    private void Start() 
+    private ParticleSystem collisionEffect;
+    public bool firstCollusion = true;
+
+    private void Awake() // safer than Start for initialization when using pooling
     {
-        firstCollusion = true;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            originalSprite = spriteRenderer.sprite; // store the starting sprite
+        }
+
         collisionEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
     }
 
@@ -19,17 +24,7 @@ public class WindowManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && firstCollusion)
         {
-            firstCollusion = false; 
-
-            if (newSprite != null)
-            {
-                spriteRenderer.sprite = newSprite;
-            }
-
-            if(collisionEffect != null)
-            {
-                collisionEffect.Play();
-            }
+            HandleCollision();
         }
     }
 
@@ -37,17 +32,32 @@ public class WindowManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && firstCollusion)
         {
-            firstCollusion = false; 
+            HandleCollision();
+        }
+    }
 
-            if (newSprite != null)
-            {
-                spriteRenderer.sprite = newSprite;
-            }
+    private void HandleCollision()
+    {
+        firstCollusion = false;
 
-            if(collisionEffect != null)
-            {
-                collisionEffect.Play();
-            }
+        if (newSprite != null && spriteRenderer != null)
+        {
+            spriteRenderer.sprite = newSprite;
+        }
+
+        if (collisionEffect != null)
+        {
+            collisionEffect.Play();
+        }
+    }
+
+    public void ResetWindow()
+    {
+        firstCollusion = true;
+
+        if (spriteRenderer != null && originalSprite != null)
+        {
+            spriteRenderer.sprite = originalSprite;
         }
     }
 }

@@ -25,6 +25,11 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] private float recycleThreshold;
     public Transform player;
 
+    void Start()
+    {
+        GeneratePlatforms();
+    }
+
 
     void Update()
     {
@@ -38,15 +43,26 @@ public class GenerationManager : MonoBehaviour
 
     void RecyclePlatform()
     {
-        // Get the lowest platform and reposition it to the front
+        // Get the lowest platform and reposition it
         GameObject platform = platformQueue.Dequeue();
         platform.transform.position = SetPosition();
-        
-        // Add it back to the pool
+
+        // Check if it's a "Window" platform
+        if (platform.name.Contains("Window"))
+        {
+            WindowManager wm = platform.GetComponent<WindowManager>();
+            if (wm != null)
+            {
+                wm.ResetWindow();
+            }
+        }
+
+        // Re-add to the queue
         platformQueue.Enqueue(platform);
 
-        Debug.Log("Action performed pooling for : " + platform.name);
+        Debug.Log("Action performed pooling for: " + platform.name);
     }
+
 
     public void GeneratePlatforms()
     {

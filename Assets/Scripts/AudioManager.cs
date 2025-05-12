@@ -33,8 +33,8 @@ public class AudioManager : MonoBehaviour
         if(!isMainMenuAudioManager)
         {
             Transform parent = GameObject.Find("Canvas").transform;
-            musicSlider = parent.transform.GetChild(1).transform.GetChild(2).gameObject.GetComponent<Slider>();
-            effectsSlider = parent.transform.GetChild(1).transform.GetChild(1).gameObject.GetComponent<Slider>();
+            musicSlider = parent.transform.GetChild(0).transform.GetChild(5).gameObject.GetComponent<Slider>();
+            effectsSlider = parent.transform.GetChild(0).transform.GetChild(4).gameObject.GetComponent<Slider>();
         }
 
 
