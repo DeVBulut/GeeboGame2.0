@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      geebo-background_0: -5036245234169605135
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
