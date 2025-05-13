@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newSprite: {fileID: 6425061761226432887, guid: 542646c760e4c1d478864f5a3c7d7324, type: 3}
-  firstCollusion: 0
+  firstCollusion: 1
 --- !u!1 &6768602199472939924
 GameObject:
   m_ObjectHideFlags: 0

@@ -4982,4 +4982,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newSprite: {fileID: -2564180060877294194, guid: 542646c760e4c1d478864f5a3c7d7324, type: 3}
-  firstCollusion: 0
+  firstCollusion: 1

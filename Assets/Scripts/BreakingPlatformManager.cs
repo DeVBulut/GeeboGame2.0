@@ -6,6 +6,7 @@ public class BreakingPlatformManager : MonoBehaviour
 {
     private Animator animator;
     public Rigidbody2D rb;
+    private CharacterController2D characterController2D;
     private void Start() 
     {
         animator = GetComponent<Animator>();   
@@ -18,6 +19,8 @@ public class BreakingPlatformManager : MonoBehaviour
             if (rb.linearVelocity.y < 0.1) // Ascending
             {
                 Debug.Log(other.name + " collided");
+                CharacterController2D cc  = other.gameObject.GetComponent<CharacterController2D>();
+                cc.BreakSoundPlay();
                 animator.Play("CloudBreak");    
                 StartCoroutine(WaitForStop(3));
             }

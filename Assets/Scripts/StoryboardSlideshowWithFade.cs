@@ -2,14 +2,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using TMPro;
 
 public class StoryboardSlideshowWithFade : MonoBehaviour
 {
     public Sprite[] slides;
+    public string[] slideTexts; // Text per slide
     public float delay = 3f;
     public float fadeDuration = 1f;
     public bool autoAdvance = true;
-    public GameObject continueButton; // Button to show at the end
+    public GameObject continueButton;
+
+    public TMP_Text StoryText; // Reference to the UI Text element
 
     private Image imageComponent;
     private CanvasGroup canvasGroup;
@@ -24,12 +28,14 @@ public class StoryboardSlideshowWithFade : MonoBehaviour
         if (slides.Length > 0)
         {
             imageComponent.sprite = slides[0];
+            if (StoryText != null && slideTexts.Length > 0)
+                StoryText.text = slideTexts[0];
             canvasGroup.alpha = 1;
         }
 
         if (continueButton != null)
         {
-            continueButton.SetActive(false); // hide initially
+            continueButton.SetActive(false);
         }
 
         if (autoAdvance)
@@ -58,7 +64,6 @@ public class StoryboardSlideshowWithFade : MonoBehaviour
 
     IEnumerator FadeToNextSlide()
     {
-        // Don't go past the last slide
         if (currentIndex >= slides.Length - 1)
         {
             if (continueButton != null)
@@ -73,15 +78,19 @@ public class StoryboardSlideshowWithFade : MonoBehaviour
         // Fade out
         yield return StartCoroutine(Fade(1f, 0.2f));
 
-        // Move to next slide
+        // Update image and text
         currentIndex++;
         imageComponent.sprite = slides[currentIndex];
 
+        if (StoryText != null && currentIndex < slideTexts.Length)
+        {
+            StoryText.text = slideTexts[currentIndex];
+        }
+
         // Fade in
-        yield return StartCoroutine(Fade(0f, 1f));
+        yield return StartCoroutine(Fade(0.2f, 1f));
         isTransitioning = false;
 
-        // If we're now on the last slide, show the button
         if (currentIndex == slides.Length - 1 && continueButton != null)
         {
             continueButton.SetActive(true);
@@ -94,7 +103,8 @@ public class StoryboardSlideshowWithFade : MonoBehaviour
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(start, end, elapsed / fadeDuration);
+            float t = elapsed / fadeDuration;
+            canvasGroup.alpha = Mathf.Lerp(start, end, t);
             yield return null;
         }
         canvasGroup.alpha = end;

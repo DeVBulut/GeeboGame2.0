@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2803071474055591378}
   - component: {fileID: 7573816890264100187}
   - component: {fileID: 7560095747642998893}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: BreakingPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3545777886298741908}
   - component: {fileID: 8030784951473450016}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Piece 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3387914659010500427}
   - component: {fileID: 9075755083163211005}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Piece 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

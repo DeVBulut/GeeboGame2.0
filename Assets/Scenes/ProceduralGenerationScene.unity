@@ -1049,6 +1049,7 @@ MonoBehaviour:
   loseEffect: {fileID: 8300000, guid: d6fcc280c79454d419c0650a6e5378ae, type: 3}
   winEffect: {fileID: 8300000, guid: caa6a8742afa5e54fa4448e287839832, type: 3}
   teleportEffect: {fileID: 8300000, guid: 7dc1bdc9397175e4b957460c5472376a, type: 3}
+  breakEffect: {fileID: 8300000, guid: cddc4decc9dbfe64ba215044077c416a, type: 3}
   leftBorder: {fileID: 994312067}
   rightBorder: {fileID: 956714580}
   playerCollider: {fileID: 468538185}

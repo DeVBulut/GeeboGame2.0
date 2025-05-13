@@ -17,6 +17,7 @@ public class CharacterController2D : MonoBehaviour
     public AudioClip loseEffect;
     public AudioClip winEffect;
     public AudioClip teleportEffect;
+    public AudioClip breakEffect;
     public Transform leftBorder; 
     public Transform rightBorder;
 
@@ -94,6 +95,24 @@ public class CharacterController2D : MonoBehaviour
             effectAudioSource.clip = boostJumpEffect;
             effectAudioSource.Play();
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Winzone"))
+        {
+            Debug.Log("You won!");
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            KillPlayer(true);
+        }
+    }
+
+    public void BreakSoundPlay()
+    {
+            Debug.Log("bREAK SOUND EFFECT");
+            effectAudioSource.clip = breakEffect;
+            effectAudioSource.Play();
     }
 
     private void FlipCharacter()
@@ -205,16 +224,6 @@ public class CharacterController2D : MonoBehaviour
             transform.position = new Vector3(rightBorder.position.x - 0.5f, transform.position.y, transform.position.z);
             effectAudioSource.clip = teleportEffect;
             effectAudioSource.Play();
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other) 
-    {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Winzone"))
-        {
-            Debug.Log("You won!");
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            KillPlayer(true);
         }
     }
 
