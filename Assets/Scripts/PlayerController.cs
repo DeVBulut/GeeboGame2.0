@@ -28,6 +28,7 @@ public class CharacterController2D : MonoBehaviour
     private Vector3 lastPosition;
     private float stuckTimer = 0f;
     private float detectionTime = 2f;
+    public int windowScore = 0;
     
 
     void Awake()

@@ -20,23 +20,25 @@ public class WindowManager : MonoBehaviour
         collisionEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player") && firstCollusion)
-        {
-            HandleCollision();
-        }
-    }
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player") && firstCollusion)
         {
-            HandleCollision();
+            GameObject player = collision.gameObject;
+            HandleCollision(player);
         }
     }
 
-    private void HandleCollision()
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && firstCollusion)
+        {
+            GameObject player = collision.gameObject;
+            HandleCollision(player);
+        }
+    }
+
+    private void HandleCollision(GameObject player)
     {
         firstCollusion = false;
 
@@ -49,7 +51,18 @@ public class WindowManager : MonoBehaviour
         {
             collisionEffect.Play();
         }
+
+        // Add to player's window score
+        if (player != null)
+        {
+            CharacterController2D controller = player.GetComponent<CharacterController2D>();
+            if (controller != null)
+            {
+                controller.windowScore += 1;
+            }
+        }
     }
+
 
     public void ResetWindow()
     {
