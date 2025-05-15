@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 400608857332067108}
   m_Layer: 8
   m_Name: Boost Platform
-  m_TagString: Untagged
+  m_TagString: Boost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 5183809189284063426, guid: f88676c211cd0ea4fa30b80e614f0a94, type: 3}
-  m_Color: {r: 0.0990566, g: 0.8882275, b: 1, a: 1}
+  m_Sprite: {fileID: 6806212524830289437, guid: c7a473211abcd094a852700707de43b5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

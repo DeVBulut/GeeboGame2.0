@@ -14,7 +14,9 @@ public class InfiniteBackgroundMultiSwap : MonoBehaviour
     private float timeElapsed = 0f;
     private bool swapPending = false;
     private int recycledCount = 0;
-    private int swapStage = 0; // 0 = original, 1 = swapSet1 active, 2 = swapSet2 active
+    public int swapStage = 0; // 0 = original, 1 = swapSet1 active, 2 = swapSet2 active
+
+    [SerializeField] private GenerationManager generationManager;
 
     void Start()
     {
@@ -105,6 +107,11 @@ public class InfiniteBackgroundMultiSwap : MonoBehaviour
 
             GameObject newBG = Instantiate(nextSet[i], pos, rot, parent);
             backgrounds[i] = newBG;
+        }
+
+        if (generationManager != null)
+        {
+            generationManager.ApplyNextPlatformTheme();
         }
     }
 }

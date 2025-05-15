@@ -6,6 +6,10 @@ TagManager:
   tags:
   - EffectsSlider
   - MusicSlider
+  - Boost
+  - Breaking
+  - Moving
+  - Cloud
   layers:
   - Default
   - TransparentFX

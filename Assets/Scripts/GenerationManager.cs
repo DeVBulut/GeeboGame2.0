@@ -25,15 +25,32 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] private float recycleThreshold;
     public Transform player;
 
+    [Header("Platform Theme Sprites Set A")]
+    public Sprite boostPlatformSprite;
+    public Sprite movingPlatformSprite;
+    public Sprite cloudPlatformSprite;
+
+    [Header("Platform Theme Sprites Set B")]
+    public Sprite boostPlatformSprite_B;
+    public Sprite movingPlatformSprite_B;
+    public Sprite cloudPlatformSprite_B;
+
+    [Header("Platform Theme Sprites Set C")]
+    public Sprite boostPlatformSprite_C;
+    public Sprite movingPlatformSprite_C;
+    public Sprite cloudPlatformSprite_C;
+
+    private int themeStage = 0;
+
     void Start()
     {
         GeneratePlatforms();
     }
 
-
     void Update()
     {
-        if(platformQueue.Count == 0){return;}
+        if(platformQueue.Count == 0) return;
+
         GameObject lowestPlatform = platformQueue.Peek();
         if (player.position.y > lowestPlatform.transform.position.y + recycleThreshold)
         {
@@ -43,31 +60,26 @@ public class GenerationManager : MonoBehaviour
 
     void RecyclePlatform()
     {
-        // Get the lowest platform and reposition it
         GameObject platform = platformQueue.Dequeue();
         platform.transform.position = SetPosition();
 
-        // Check if it's a "Window" platform
         if (platform.name.Contains("Window"))
         {
             WindowManager wm = platform.GetComponent<WindowManager>();
-            if (wm != null)
-            {
-                wm.ResetWindow();
-            }
+            if (wm != null) wm.ResetWindow();
         }
 
-        // Re-add to the queue
         platformQueue.Enqueue(platform);
-
         Debug.Log("Action performed pooling for: " + platform.name);
     }
 
-
     public void GeneratePlatforms()
     {
-        //fail Check
-        if(platformPrefabs.Length == 0){Debug.LogWarning("Platform prefab count on prefab array = 0"); return;}
+        if(platformPrefabs.Length == 0)
+        {
+            Debug.LogWarning("Platform prefab count on prefab array = 0"); 
+            return;
+        }
         
         for (int i = 0; i < platformPerCycle; i++)
         {
@@ -79,37 +91,95 @@ public class GenerationManager : MonoBehaviour
     private GameObject RandomlyGeneratedPlatform()
     {
         int dice = Random.Range(1, 100);
-        int[] thresholds = { 35, 45, 60, 70, 80, 90, 100};
+        int[] thresholds = { 35, 45, 60, 70, 80, 90, 100 };
 
         for (int i = 0; i < thresholds.Length; i++)
         {
             if (dice < thresholds[i])
             {
-                if(dice > 70 || lastPlatform.name.Contains("Window"))
-                {
-                    speicalPlatformOffset = setSpecialPlatformOffset;
-                }
-                else{speicalPlatformOffset = 0f;}
+                speicalPlatformOffset = (dice > 70 || lastPlatform.name.Contains("Window")) ? setSpecialPlatformOffset : 0f;
                 lastPlatform = platformPrefabs[i];
                 return platformPrefabs[i];
             }
         }
 
         Debug.LogWarning("Unintended Behaviour Blocker - " + platformPrefabs[0].name + " is returned");
-        return platformPrefabs[0]; // Fallback (should never happen)
-    }    
+        return platformPrefabs[0];
+    }
 
     private Vector3 SetPosition()
     {
         float xPosition = Random.Range(-borderTransform.position.x + borderOffset, borderTransform.position.x - borderOffset);
-
-        float yPosition = Random.Range(ySpawn + minY_DistanceBetweenPlatform , ySpawn + maxY_DistanceBetweenPlatform);
-        yPosition += setSpecialPlatformOffset;
-
+        float yPosition = Random.Range(ySpawn + minY_DistanceBetweenPlatform, ySpawn + maxY_DistanceBetweenPlatform) + setSpecialPlatformOffset;
         ySpawn = yPosition;
-        //Debug.Log("Randomized Position is x: " + xPosition + " y: " + yPosition);
         return new Vector3(xPosition, yPosition, 0);
     }
 
+    // 🔁 Call this during background swap
+    public void ApplyNextPlatformTheme()
+    {
+        ApplyPlatformVisualTheme(themeStage);
+        themeStage++;
+    }
 
+    // 🎨 Applies a theme based on stage index
+    public void ApplyPlatformVisualTheme(int stage)
+    {
+        foreach (GameObject platform in platformQueue)
+        {
+            if (platform == null) continue;
+
+            SpriteRenderer sr = platform.GetComponent<SpriteRenderer>();
+            if (sr == null) continue;
+
+            switch (platform.tag)
+            {
+                case "Boost":
+                    sr.sprite = GetBoostSprite(stage);
+                    break;
+                case "Moving":
+                    sr.sprite = GetMovingSprite(stage);
+                    break;
+                case "Cloud":
+                    sr.sprite = GetCloudSprite(stage);
+                    break;
+            }
+        }
+
+        Debug.Log($"Platform visuals updated to theme stage {stage}");
+    }
+
+    // 🔄 Sprite pickers
+    private Sprite GetBoostSprite(int stage)
+    {
+        switch (stage)
+        {
+            case 0: return boostPlatformSprite;
+            case 1: return boostPlatformSprite_B;
+            case 2: return boostPlatformSprite_C;
+            default: return boostPlatformSprite_C;
+        }
+    }
+
+    private Sprite GetMovingSprite(int stage)
+    {
+        switch (stage)
+        {
+            case 0: return movingPlatformSprite;
+            case 1: return movingPlatformSprite_B;
+            case 2: return movingPlatformSprite_C;
+            default: return movingPlatformSprite_C;
+        }
+    }
+
+    private Sprite GetCloudSprite(int stage)
+    {
+        switch (stage)
+        {
+            case 0: return cloudPlatformSprite;
+            case 1: return cloudPlatformSprite_B;
+            case 2: return cloudPlatformSprite_C;
+            default: return cloudPlatformSprite_C;
+        }
+    }
 }

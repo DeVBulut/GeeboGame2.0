@@ -5541,6 +5541,15 @@ MonoBehaviour:
   setSpecialPlatformOffset: 1
   recycleThreshold: 10
   player: {fileID: 468538180}
+  boostPlatformSprite: {fileID: 6806212524830289437, guid: c7a473211abcd094a852700707de43b5, type: 3}
+  movingPlatformSprite: {fileID: 2654056296520196383, guid: c7a473211abcd094a852700707de43b5, type: 3}
+  cloudPlatformSprite: {fileID: 6171498807175148715, guid: c7a473211abcd094a852700707de43b5, type: 3}
+  boostPlatformSprite_B: {fileID: 2611568596735548173, guid: 487b5fe3a8681bf439222851e994da2a, type: 3}
+  movingPlatformSprite_B: {fileID: 8143576291013182425, guid: 487b5fe3a8681bf439222851e994da2a, type: 3}
+  cloudPlatformSprite_B: {fileID: 4415971461686399349, guid: 487b5fe3a8681bf439222851e994da2a, type: 3}
+  boostPlatformSprite_C: {fileID: 5183809189284063426, guid: f88676c211cd0ea4fa30b80e614f0a94, type: 3}
+  movingPlatformSprite_C: {fileID: -7727642587415818530, guid: f88676c211cd0ea4fa30b80e614f0a94, type: 3}
+  cloudPlatformSprite_C: {fileID: -5384499980464160179, guid: f88676c211cd0ea4fa30b80e614f0a94, type: 3}
 --- !u!1 &1952149833
 GameObject:
   m_ObjectHideFlags: 0
@@ -6170,6 +6179,8 @@ MonoBehaviour:
   - {fileID: 508057234}
   - {fileID: 1133228630}
   backgroundHeight: 32
+  swapStage: 0
+  generationManager: {fileID: 1895568646}
 --- !u!1001 &7759770185480233843
 PrefabInstance:
   m_ObjectHideFlags: 0
