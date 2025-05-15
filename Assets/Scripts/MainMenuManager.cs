@@ -5,7 +5,7 @@ public class MainMenuManager : MonoBehaviour
 {
     public void LoadGame()
     {
-        SceneManager.LoadScene("ProceduralGenerationScene");
+        SceneManager.LoadScene("StoryboardScene");
     }
 
     public void LoadSettings()
