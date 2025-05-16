@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class CharacterController2D : MonoBehaviour
 {
@@ -11,14 +12,17 @@ public class CharacterController2D : MonoBehaviour
     public float superJumpForce = 20f;
     public GameObject DeathPanel;
     public GameObject WinPanel;
+    public TMP_Text winScoreText;
     public AudioSource effectAudioSource;
-    public AudioClip jumpEffect; 
+    public AudioSource windowAudioSource;
+    public AudioClip jumpEffect;
     public AudioClip boostJumpEffect;
     public AudioClip loseEffect;
     public AudioClip winEffect;
     public AudioClip teleportEffect;
     public AudioClip breakEffect;
-    public Transform leftBorder; 
+    public AudioClip windowEffect;
+    public Transform leftBorder;
     public Transform rightBorder;
 
     private Rigidbody2D rb;
@@ -29,12 +33,15 @@ public class CharacterController2D : MonoBehaviour
     private float stuckTimer = 0f;
     private float detectionTime = 2f;
     public int windowScore = 0;
-    
+
+    private float winTimer = 120f; // 1.5 minutes
+    private bool gameEnded = false;
+    private bool isInWinState = false;
+
 
     void Awake()
     {
-
-        effectAudioSource =  FindFirstObjectByType<AudioManager>().gameObject.transform.GetChild(0).GetComponent<AudioSource>();
+        effectAudioSource = FindFirstObjectByType<AudioManager>().gameObject.transform.GetChild(0).GetComponent<AudioSource>();
     }
 
     void Start()
@@ -46,7 +53,16 @@ public class CharacterController2D : MonoBehaviour
 
     void Update()
     {
-        if(!alive){return;}
+        if (!alive || gameEnded) return;
+
+        // WIN TIMER CHECK
+        winTimer -= Time.deltaTime;
+        if (winTimer <= 0f)
+        {
+            TriggerWinByTime();
+            return;
+        }
+
         horizontalInput = Input.GetAxis("Horizontal");
         FlipCharacter();
         HandleCollider();
@@ -56,6 +72,7 @@ public class CharacterController2D : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!alive) return;
         Move();
     }
 
@@ -69,26 +86,22 @@ public class CharacterController2D : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpStrength);
     }
 
-    // private void OnCollisionEnter2D(Collision2D collision)
-    // {
-    //     if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-    //     {
-    //         Jump(jumpForce);
-    //         Debug.Log(collision.gameObject.name);
-    //     }
-    //     else if (collision.gameObject.layer == LayerMask.NameToLayer("SuperJump"))
-    //     {
-    //         Jump(superJumpForce);
-    //     }
-    // }
-
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (isInWinState) return;
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Jump(jumpForce);
-            effectAudioSource.clip = jumpEffect;
-            effectAudioSource.Play();
+            if (collision.gameObject.name.Contains("Window"))
+            {
+
+            }
+            else
+            {
+                effectAudioSource.clip = jumpEffect;
+                effectAudioSource.Play();
+            }
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("SuperJump"))
         {
@@ -100,20 +113,19 @@ public class CharacterController2D : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Winzone"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Winzone"))
         {
             Debug.Log("You won!");
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            KillPlayer(true);
+            TriggerWinByTime(); // Optional: treat WinZone like timeout win
         }
     }
 
     public void BreakSoundPlay()
     {
-            Debug.Log("bREAK SOUND EFFECT");
-            effectAudioSource.clip = breakEffect;
-            effectAudioSource.Play();
+        if (isInWinState) return;
+
+        effectAudioSource.clip = breakEffect;
+        effectAudioSource.Play();
     }
 
     private void FlipCharacter()
@@ -126,72 +138,59 @@ public class CharacterController2D : MonoBehaviour
 
     private void HandleCollider()
     {
-        if (rb.linearVelocity.y > 0.2) // Ascending
-        {
+        if (rb.linearVelocity.y > 0.2)
             playerCollider.isTrigger = true;
-        }
-        else if(rb.linearVelocity.y < -0.2)
-        {
-            playerCollider.isTrigger = false;
-        }
         else
-        {
             playerCollider.isTrigger = false;
-        }
     }
 
     void PlayDeathSound()
     {
-        effectAudioSource.clip = loseEffect; 
+        effectAudioSource.clip = loseEffect;
         effectAudioSource.Play();
-        Debug.Log("Played Death Sound");
     }
 
     void PlayWinSound()
     {
-        effectAudioSource.clip = winEffect; 
+        isInWinState = true;
+        effectAudioSource.clip = winEffect;
         effectAudioSource.Play();
-        Debug.Log("Played Win Sound");
     }
 
     public void KillPlayer(bool hasWon)
     {
         alive = false;
-        if(!hasWon)
+
+        if (!hasWon)
         {
             DeathPanel.SetActive(true);
             PlayDeathSound();
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            StartCoroutine(RestartAfterDelay());
         }
-        else
-        {
-            WinPanel.SetActive(true);
-            PlayWinSound();
-        }
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        StartCoroutine(StartDeath());
+        // Win condition no longer needs to kill player
     }
 
-    private IEnumerator StartDeath()
-    {   
+    private IEnumerator RestartAfterDelay()
+    {
         yield return new WaitForSeconds(5f);
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
-
     private void StuckDetection()
     {
-        if (Vector3.Distance(transform.position, lastPosition) < 0.01f) // Very small movement threshold
+        if (Vector3.Distance(transform.position, lastPosition) < 0.01f)
         {
             stuckTimer += Time.deltaTime;
             if (stuckTimer >= detectionTime)
             {
                 OnStuck();
-                stuckTimer = 0f; // Reset timer after triggering
+                stuckTimer = 0f;
             }
         }
         else
         {
-            stuckTimer = 0f; // Reset timer if movement is detected
+            stuckTimer = 0f;
         }
 
         lastPosition = transform.position;
@@ -199,20 +198,23 @@ public class CharacterController2D : MonoBehaviour
 
     private void OnStuck()
     {
-        Debug.Log("PLAYER GOT STUCK -- PUSHING THROUGH");
-        playerCollider.isTrigger = true; 
+        if (isInWinState) return;
+
+        playerCollider.isTrigger = true;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         StartCoroutine(stuckCooldown());
     }
 
     IEnumerator stuckCooldown()
     {
-        yield return new WaitForSeconds(0.1f); 
-        playerCollider.isTrigger = false; 
+        yield return new WaitForSeconds(0.1f);
+        playerCollider.isTrigger = false;
     }
 
     private void EdgeControl()
     {
+        if (isInWinState) return;
+
         if (transform.position.x > rightBorder.position.x)
         {
             transform.position = new Vector3(leftBorder.position.x + 0.5f, transform.position.y, transform.position.z);
@@ -228,4 +230,42 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
+    private void TriggerWinByTime()
+    {
+        Debug.Log("Time's up — you win!");
+        gameEnded = true;
+        isInWinState = true;
+
+        PlayWinSound();
+        WinPanel.SetActive(true);
+        Time.timeScale = 0f;
+
+        if (winScoreText != null)
+        {
+            winScoreText.text = windowScore.ToString();
+        }
+    }
+
+    public void ReloadScene()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void LoadMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public void PlayWindowSound(int code)
+    {
+        if (code == 1)
+        {
+            effectAudioSource.clip = jumpEffect;
+            effectAudioSource.Play();
+            return;
+        }
+        windowAudioSource.clip = windowEffect;
+        windowAudioSource.Play();
+    }
 }

@@ -1,23 +1,31 @@
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    public GameObject WinScreen; 
+    public GameObject WinScreen;
+    private float timer = 2f; // 1.5 minutes
+    private bool gameEnded = false;
+    public TMP_Text winText;
 
-    private void Start() 
+    void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
+        if (gameEnded) return;
+
+        timer -= Time.deltaTime;
+
+        if (timer <= 0f)
+        {
+            TriggerWin();
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    void TriggerWin()
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Winzone"))
-        {
-            Debug.Log("Collided");
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            WinScreen.SetActive(true);
-        }
+        winText.text = GetComponent<CharacterController2D>().windowScore.ToString();
+        gameEnded = true;
+        Time.timeScale = 0f; // Optional: freeze gameplay
+        WinScreen.SetActive(true);
+        Debug.Log("You win! Time completed.");
     }
 }

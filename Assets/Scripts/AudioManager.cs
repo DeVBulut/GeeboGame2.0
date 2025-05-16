@@ -1,21 +1,23 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
     public AudioMixer audioMixer;
     public Slider effectsSlider;
-    public Slider musicSlider; 
-    public Slider buttonVolumeSlider; 
+    public Slider musicSlider;
+    public Slider buttonVolumeSlider;
     public static AudioManager instance;
     private float effectVolume = 0.3f;
-    private float musicVolume = 0.3f; 
-    private float buttonEffectVolume = 1f; 
-    [SerializeField] private bool isMainMenuAudioManager = false; 
+    private float musicVolume = 0.3f;
+    private float buttonEffectVolume = 1f;
+    [SerializeField] private bool isMainMenuAudioManager = false;
     void Awake()
     {
+        if(isMainMenuAudioManager == false){ return; }
         if (instance == null)
         {
             instance = this;
@@ -30,7 +32,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        if(!isMainMenuAudioManager)
+        if (!isMainMenuAudioManager)
         {
             Transform parent = GameObject.Find("Canvas").transform;
             musicSlider = parent.transform.GetChild(0).transform.GetChild(5).gameObject.GetComponent<Slider>();
@@ -47,15 +49,15 @@ public class AudioManager : MonoBehaviour
         //effectsSlider = GameObject.FindGameObjectWithTag("EffectsSlider").gameObject.GetComponent<Slider>();
 
         // Set slider values
-        if(musicSlider != null)
+        if (musicSlider != null)
         {
             musicSlider.value = musicVolume;
         }
-        if(effectsSlider != null)
+        if (effectsSlider != null)
         {
             effectsSlider.value = effectVolume;
         }
-        if(buttonVolumeSlider != null)
+        if (buttonVolumeSlider != null)
         {
             buttonVolumeSlider.value = buttonEffectVolume;
         }
@@ -86,7 +88,7 @@ public class AudioManager : MonoBehaviour
             audioMixer.SetFloat("Music", (musicVolume > 0) ? Mathf.Log10(musicVolume) * 20 : -80);
             audioMixer.SetFloat("Effects", (effectVolume > 0) ? Mathf.Log10(effectVolume) * 20 : -80);
             audioMixer.SetFloat("UI", (buttonEffectVolume > 0) ? Mathf.Log10(buttonEffectVolume) * 20 : -80);
-        } 
+        }
         else
         {
             Debug.LogWarning("Sliders are not found");
@@ -97,5 +99,11 @@ public class AudioManager : MonoBehaviour
     {
 
     }
+    
+    public void SelfDestruct()
+    {
+        Destroy(gameObject);
+    }
+
 
 }

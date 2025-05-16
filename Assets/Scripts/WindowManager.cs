@@ -36,6 +36,15 @@ public class WindowManager : MonoBehaviour
             GameObject player = collision.gameObject;
             HandleCollision(player);
         }
+        else if (collision.gameObject.CompareTag("Player") && !firstCollusion)
+        {
+            GameObject player = collision.gameObject;
+            CharacterController2D controller = player.GetComponent<CharacterController2D>();
+            if (controller != null)
+            {
+                controller.PlayWindowSound(1);
+            }
+        }
     }
 
     private void HandleCollision(GameObject player)
@@ -59,6 +68,7 @@ public class WindowManager : MonoBehaviour
             if (controller != null)
             {
                 controller.windowScore += 1;
+                controller.PlayWindowSound(0);
             }
         }
     }
