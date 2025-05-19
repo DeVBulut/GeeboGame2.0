@@ -31,7 +31,7 @@ public class CharacterController2D : MonoBehaviour
     private bool alive;
     private Vector3 lastPosition;
     private float stuckTimer = 0f;
-    private float detectionTime = 2f;
+    private float detectionTime = 0.25f;
     public int windowScore = 0;
 
     private float winTimer = 120f; // 1.5 minutes
